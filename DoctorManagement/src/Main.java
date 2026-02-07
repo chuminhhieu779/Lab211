@@ -19,7 +19,7 @@ public class Main {
             System.out.print("Please choose your option:");
             choice = sc.nextLine();
             switch (choice) {
-                case "1":
+                case "1": {
                     Doctor doctor = new Doctor();
                     System.out.println("-------Add Doctor--------");
                     System.out.print("Enter Code:");
@@ -36,53 +36,61 @@ public class Main {
                     try {
                         manager.addDoctor(doctor);
                         System.out.println("doctor is added ");
+                        break;
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        break;
                     }
-                    break;
-                case "2":
+                }
+                case "2": {
                     System.out.println("--------- Update Doctor ---------");
-                    Doctor doctor1 = new Doctor();
-                    System.out.print("Enter Code:");
-                    String codeUpdate = sc.nextLine();
+                    Doctor doctor = new Doctor();
+                    System.out.print("Enter Code:") ;
+                    String code = sc.nextLine();
                     System.out.print("Enter Name:");
-                    String nameUpdate = sc.nextLine();
+                    String name = sc.nextLine();
                     System.out.print("Enter Specialization:");
-                    String specUpdate = sc.nextLine();
-                    int avaUpdate = ultility.validateVailability("Vailability:");
-                    doctor1.setCode(codeUpdate);
-                    doctor1.setName(nameUpdate);
-                    doctor1.setSpecilization(specUpdate);
-                    doctor1.setAvaibility(avaUpdate);
+                    String spec = sc.nextLine();
+                    int ava = ultility.validateVailability("Vailability:");
+                    doctor.setName(name);
+                    doctor.setSpecilization(spec);
+                    doctor.setAvaibility(ava);
+                    doctor.setCode(code);
                     try {
-                        manager.updateDoctor(doctor1);
+                        manager.updateDoctor(doctor);
                         System.out.println("doctor is updated ");
+                        break;
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        break;
                     }
-                    break;
-                case "3":
+                }
+                case "3": {
                     System.out.println("--------- Delete Doctor ---------");
                     System.out.print("Code: ");
                     String codeRemove = sc.nextLine();
                     try {
                         manager.deleteDoctor(codeRemove);
                         System.out.println("doctor has removed ");
+                        break;
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        break;
                     }
-                    break;
-                case "4":
+                }
+                case "4": {
                     System.out.println("--------- Search Doctor ---------");
                     System.out.println("Enter String:");
                     String enterSearch = sc.nextLine();
-                    try{
-                        HashMap<String , Doctor> map = manager.searchDoctor(enterSearch);
-                        manager.display(map);
-                    }catch (Exception e){
+                    try {
+                         System.out.println("--------Result--------");
+                         manager.searchDoctor(enterSearch);
+                         break;
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        break;
                     }
-                    break;
+                }
             }
         } while (!choice.equals("5"));
     }

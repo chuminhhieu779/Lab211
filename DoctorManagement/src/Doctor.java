@@ -5,7 +5,6 @@ public class Doctor {
     private String specilization ;
     private int avaibility ;
 
-
     public Doctor() {
 
     }

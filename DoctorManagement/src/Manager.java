@@ -1,72 +1,64 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Manager {
 
-    private final Map<String, Doctor> doctorMap = new HashMap();
+    private final List<Doctor> doctorList = new ArrayList<>();
 
-    public boolean addDoctor(Doctor doctor) throws Exception {
-        if (doctor == null) {
-            throw new Exception("Data does not exits ");
-        } else if (doctorMap == null) {
-            throw new Exception("Database does not exist ");
-        } else {
-            if (doctorMap.containsKey(doctor.getCode())) {
-                throw new Exception("Doctor code " + doctor.getCode() + " is duplicate");
-            } else {
-                doctorMap.put(doctor.getCode(), doctor);
-                return true;
+    public void addDoctor(Doctor doctor) throws Exception {
+        if (!doctorList.isEmpty()) {
+            for (Doctor doctor1 : doctorList) {
+                if (doctor1.getCode().equalsIgnoreCase(doctor.getCode())) {
+                    throw new Exception("Doctor code " + doctor.getCode() + " is duplicate");
+                }
             }
         }
+        doctorList.add(doctor);
     }
 
-    public boolean updateDoctor(Doctor doctor) throws Exception {
-        if (doctor == null) {
-            throw new Exception("Data does not exits ");
-        } else if (doctorMap == null) {
-            throw new Exception("Database does not exist ");
-        } else {
-            if (!doctorMap.containsKey(doctor.getCode())) {
-                throw new Exception("Doctor code doesn't exist ");
-            } else {
-                doctorMap.put(doctor.getCode(), doctor);
-                return true;
+    public void updateDoctor(Doctor doctor) throws Exception {
+        if (!doctorList.isEmpty()) {
+            for (Doctor doctor1 : doctorList) {
+                if (doctor1.getCode().equalsIgnoreCase(doctor.getCode())) {
+                    doctor1.setName(doctor.getName());
+                    doctor1.setSpecilization(doctor.getSpecilization());
+                    doctor1.setAvaibility(doctor.getAvaibility());
+                    return ;
+                }
+                throw new Exception("Doctor code " + doctor.getCode() + " is not exits ");
             }
         }
     }
 
-    public boolean deleteDoctor(String code) throws Exception {
-        if (code == null) {
-            throw new Exception("Data does not exits ");
-        } else if (doctorMap == null) {
-            throw new Exception("Database does not exist ");
-        } else {
-            if (!doctorMap.containsKey(code)) {
-                throw new Exception("Doctor code doesn't exist ");
-            } else {
-                doctorMap.remove(code);
-                return true;
+    public void deleteDoctor(String code) throws Exception {
+        if (!doctorList.isEmpty()) {
+            for (Doctor doctor1 : doctorList) {
+                if (doctor1.getCode().equalsIgnoreCase(code)) {
+                    doctorList.remove(doctor1);
+                    return ;
+                }
+                throw new Exception("Doctor code " + code + " is not exits ");
             }
         }
     }
-    public HashMap<String, Doctor> searchDoctor(String input) throws Exception {
-        HashMap<String, Doctor> found = new HashMap<>();
-        if(doctorMap  == null) {
-            throw new Exception("Database does not exist ");
-        }
-        for(Map.Entry<String, Doctor> entry : doctorMap.entrySet()){
-            Doctor doctor = entry.getValue();
-            String code = entry.getKey();
-            if(doctor.getCode().contains(input) || doctor.getName().contains(input) || doctor.getSpecilization().contains(input)){
-                found.put(code, doctor);
+
+    public void searchDoctor(String code) {
+        System.out.println(String.format(
+                "%-10s %-20s %-20s %-10s",
+                "Code", "Name", "Specialization", "Availability"
+        ));
+        for (Doctor doctor : doctorList) {
+            if (doctor.getCode().contains(code)) {
+                System.out.println(String.format(
+                        "%-10s %-20s %-20s %-10d",
+                        doctor.getCode(),
+                        doctor.getName(),
+                        doctor.getSpecilization(),
+                        doctor.getAvaibility()
+                ));
             }
-        }
-        return found;
-    }
-    public void display(HashMap<String, Doctor> map){
-        for(Map.Entry<String , Doctor> entry : map.entrySet()){
-            Doctor doctor = entry.getValue();
-            System.out.println(doctor.getCode() + " " + doctor.getName() + " "+doctor.getSpecilization() + " " + doctor.getAvaibility());
         }
     }
 
